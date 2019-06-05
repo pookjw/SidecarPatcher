@@ -1,4 +1,6 @@
 /*
+ SidecarPatcher - Version 2
+ 
  Enabling Sidecar on old Mac (2015 or older)
  Tested on macOS 10.15 Beta 1 (19A471t). But I don't have old Mac so I don't know it works.
  
@@ -86,7 +88,6 @@ do {
     try patched.write(to: patched_output_path, atomically: true, encoding: String.Encoding.utf8)
 } catch let error as NSError {
     printError("\(error)")
-    // failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding
 }
 shell("xxd -r -p /tmp/SidecarPatcher/output.txt /tmp/SidecarPatcher/SidecarCore")
 
@@ -107,4 +108,5 @@ catch let error as NSError {
 }
 
 shell("sudo codesign -f -s - /System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore")
+print("Reboot your macOS.")
 exit(0)
