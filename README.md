@@ -12,7 +12,7 @@ This script disables this blacklist.
 
 - Disable **System Integrity Protection**
 
-## How-to
+## How to
 
 - Download the latest release from [here](https://github.com/pookjw/SidecarPatcher/releases).
 
