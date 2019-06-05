@@ -10,7 +10,7 @@ This script disables this blacklist. Tested on macOS 10.15 Beta (19A471t)
 
 - Backup `/System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore` file. This script doesn't provide original system file.
 
-- Disable **System Integrity Protection**
+- Disable **System Integrity Protection**.
 
 ## How to
 
