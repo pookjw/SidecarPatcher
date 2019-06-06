@@ -6,7 +6,7 @@ Sidecar is disabled on these devices: iMac13,1, iMac13,2, iMac13,3, iMac14,1, iM
 
 ## With modifying System
 
-This script disables this blacklist. Tested on macOS 10.15 Beta (19A471t). This is unstable! Use at your own risk.
+This script disables this blacklist. Tested on macOS 10.15 Beta 1 (19A471t). This is unstable! Use at your own risk.
 
 - Backup `/System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore` file. This script doesn't provide original system file.
 
