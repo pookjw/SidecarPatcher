@@ -6,14 +6,18 @@ Sidecar is disabled on these devices: iMac13,1, iMac13,2, iMac13,3, iMac14,1, iM
 
 This script disables this blacklist. Tested on macOS 10.15 Beta (19A471t). This is unstable! Use at your own risk.
 
-## Before
+## With modifying System
 
 - Backup `/System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore` file. This script doesn't provide original system file.
 
 - Disable **System Integrity Protection**.
 
-## How to
-
 - Download the latest release from [here](https://github.com/pookjw/SidecarPatcher/releases).
 
 - Run `SidecarPatcher` as root.
+
+## Without modifying System
+
+- `defaults write com.apple.sidecar.display allowAllDevices -bool YES`
+
+- `defaults write com.apple.sidecar.display hasShownPref -bool YES`

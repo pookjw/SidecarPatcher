@@ -1,5 +1,5 @@
 /*
- SidecarPatcher - Version 2
+ SidecarPatcher - Version 3
  
  Enabling Sidecar on old Mac (2015 or older)
  Tested on macOS 10.15 Beta 1 (19A471t). But I don't have old Mac so I don't know it works.
@@ -61,7 +61,7 @@ if original.contains(patched_model_list){
 }
 
 if !original.contains(original_model_list){
-    printError("Not supported SidecarCore!")
+    printError("Not supported SidecarCore! or seems like damaged.")
 }
 
 patched = original
