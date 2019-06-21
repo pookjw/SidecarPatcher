@@ -16,6 +16,8 @@ This script disables this blacklist. Tested on macOS 10.15 Beta 1 (19A471t). Thi
 
 - Run `SidecarPatcher` as root.
 
+If you already patched, this script won't work until replacing to original one.
+
 ## Without modifying System
 
 - `defaults write com.apple.sidecar.display allowAllDevices -bool YES`

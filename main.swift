@@ -1,10 +1,11 @@
 /*
- SidecarPatcher - Version 3
+ SidecarPatcher - Version 4
  
  Enabling Sidecar on old Mac (2015 or older)
  Tested on macOS 10.15 Beta 1 (19A471t). But I don't have old Mac so I don't know it works.
  
- THIS SCRIPT DOESN'T MAKE SidecarCore BACKUP SO YOU HAVE TO DO THIS MANUALLY. PLEASE BACKUP /System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore. PLEASE. PLEASE. PLEASE. And after patching SidecarCore, this script won't work until replacing to original one.
+ THIS SCRIPT DOESN'T MAKE SidecarCore BACKUP SO YOU HAVE TO DO THIS MANUALLY. PLEASE BACKUP /System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore. PLEASE. PLEASE. PLEASE.
+ And after patching SidecarCore, this script won't work until replacing to original one.
  This script requires disabling SIP, and running as root.
  */
 
@@ -48,20 +49,20 @@ if #available(macOS 10.15, *){
     printError("You're not using macOS 10.15 or later!")
 }
 
-if !(shell("csrutil status") == ("System Integrity Protection status: disabled.\n")){
-    printError("System Integrity Protection is enabled.")
-}
-
-if !(shell("id -u") == "0\n"){
-    printError("Must be run as root.")
-}
-
 if original.contains(patched_model_list){
     printError("Already patched!")
 }
 
 if !original.contains(original_model_list){
     printError("Not supported SidecarCore! or seems like damaged.")
+}
+
+if !(shell("csrutil status") == ("System Integrity Protection status: disabled.\n")){
+    printError("System Integrity Protection is enabled.")
+}
+
+if !(shell("id -u") == "0\n"){
+    printError("Must be run as root.")
 }
 
 patched = original
