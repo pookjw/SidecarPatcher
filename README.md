@@ -18,9 +18,9 @@ This script disables this blacklist. Tested on macOS 10.15 Beta 1 (19A471t). Use
 
 - Safari will download a file named `SidecarPatcher.dms` instead of `SidecarPatcher`. Actually same.
 
-4. Open Terminal and Excute `chmod +x /path/to/SidecarPatcher` and `sudo /path/to/SidecarPatcher`. 
+4. Open **Terminal** application and Excute `chmod +x /path/to/SidecarPatcher` and `sudo /path/to/SidecarPatcher`. 
 
-- `/path/to/SidecarPatcher` refers to location of `SidecarPatcher` like `/Users/pook/Downloads/SidecarPatcher`. If you don't know what it is, just Drag & Drop a `SidecarPatcher` to Terminal. It will automatically fill it.
+- `/path/to/SidecarPatcher` refers to the location of `SidecarPatcher` like `/Users/pook/Downloads/SidecarPatcher`. If you don't know what it is, just Drag & Drop a `SidecarPatcher` to Terminal. It will automatically fill it.
 
 - You will need to enter Password, which is login password.
 
