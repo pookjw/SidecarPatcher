@@ -10,15 +10,23 @@ To get the model name of your Mac: `sysctl hw.model`
 
 This script disables this blacklist. Tested on macOS 10.15 Beta 1 (19A471t). Use at your own risk.
 
-- Backup `/System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore` file. This script doesn't provide original system file.
+1. Backup `/System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore` file. This script doesn't provide original system file.
 
-- Disable **System Integrity Protection**. [How to turn off System Integrity Protection on your Mac](https://www.imore.com/how-turn-system-integrity-protection-macos).
+2. Disable **System Integrity Protection**. [How to turn off System Integrity Protection on your Mac](https://www.imore.com/how-turn-system-integrity-protection-macos).
 
-- Download the latest release from [here](https://github.com/pookjw/SidecarPatcher/releases).
+3. Download the latest `SidecarPatcher` release from [here](https://github.com/pookjw/SidecarPatcher/releases).
 
-- Excute `SidecarPatcher` as root. [How to Execute a File in Terminal](https://smallbusiness.chron.com/execute-file-macbook-terminal-49381.html). (Safari will download a file named `SidecarPatcher.dms` instead of `SidecarPatcher`. Actually same.)
+- Safari will download a file named `SidecarPatcher.dms` instead of `SidecarPatcher`. Actually same.
 
-If you already patched, this script won't work until replacing to original one.
+4. Open Terminal and Excute `chmod +x /path/to/SidecarPatcher` and `sudo /path/to/SidecarPatcher`. 
+
+- `/path/to/SidecarPatcher` refers to location of `SidecarPatcher` like `/Users/pook/Downloads/SidecarPatcher`. If you don't know what it is, just Drag & Drop a `SidecarPatcher` to Terminal. It will automatically fill it.
+
+- You will need to enter Password, which is login password.
+
+- If you encounter `Read-only file system` error, follow [this](https://github.com/pookjw/SidecarPatcher/issues/1).
+
+- If you already patched, this script won't work until replacing to original one.
 
 ## Without modifying System
 
