@@ -14,6 +14,8 @@ This script disables this blacklist. Tested on macOS 10.15 Beta 1 (19A471t). Use
 
 2. Disable **System Integrity Protection**. [How to turn off System Integrity Protection on your Mac](https://www.imore.com/how-turn-system-integrity-protection-macos).
 
+- To check SIP is disabled: `csrutil status`
+
 3. Download the latest `SidecarPatcher` release from [here](https://github.com/pookjw/SidecarPatcher/releases).
 
 - Safari will download a file named `SidecarPatcher.dms` instead of `SidecarPatcher`. Actually same.
