@@ -12,11 +12,11 @@ This script disables this blacklist. Tested on macOS 10.15 Beta 1 (19A471t). Use
 
 - Backup `/System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore` file. This script doesn't provide original system file.
 
-- Disable **System Integrity Protection**.
+- Disable **System Integrity Protection**. [How to turn off System Integrity Protection on your Mac](https://www.imore.com/how-turn-system-integrity-protection-macos).
 
 - Download the latest release from [here](https://github.com/pookjw/SidecarPatcher/releases).
 
-- Excute `SidecarPatcher` as root. [How to Execute a File in Terminal.](https://smallbusiness.chron.com/execute-file-macbook-terminal-49381.html) (Safari will download a file named `SidecarPatcher.dms` instead of `SidecarPatcher`. Actually same.)
+- Excute `SidecarPatcher` as root. [How to Execute a File in Terminal](https://smallbusiness.chron.com/execute-file-macbook-terminal-49381.html). (Safari will download a file named `SidecarPatcher.dms` instead of `SidecarPatcher`. Actually same.)
 
 If you already patched, this script won't work until replacing to original one.
 
