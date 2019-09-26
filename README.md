@@ -6,7 +6,7 @@ Sidecar is disabled on these devices: iMac13,1, iMac13,2, iMac13,3, iMac14,1, iM
 
 To get the model name of your Mac: `sysctl hw.model`
 
-## With modifying System
+## How to patch
 
 This script disables this blacklist. Tested on macOS 10.15 Beta 9 (19A573a). Use at your own risk.
 
