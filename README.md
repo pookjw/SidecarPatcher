@@ -18,6 +18,8 @@ This script disables this blacklist. Tested on macOS 10.15 Beta 9 (19A573a). Use
 
 3. Download the latest release from [here](https://github.com/pookjw/SidecarPatcher/releases) and unzip it.
 
+- If you download using Chrome, it will warn of downloading file may dangerous. It's not a virus, but this script modifies system so may be dangerous.
+
 4. Open **Terminal** application and Excute `chmod +x /path/to/SidecarPatcher` and `sudo /path/to/SidecarPatcher`. 
 
 - `/path/to/SidecarPatcher` refers to the location of `SidecarPatcher` like `/Users/pook/Downloads/SidecarPatcher`. If you don't know what it is, just Drag & Drop a `SidecarPatcher` to Terminal. It will automatically fill it.
