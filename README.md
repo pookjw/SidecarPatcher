@@ -8,7 +8,7 @@ To get the model name of your Mac: `sysctl hw.model`
 
 ## How to patch
 
-This script disables this blacklist. Tested on macOS 10.15 Beta 9 (19A573a). Use at your own risk.
+This script disables this blacklist. Tested on macOS 10.15 Beta 9 (19A573a). It is really unstable. Use at your own risk.
 
 1. Backup `/System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore` file. This script doesn't provide original system file.
 
