@@ -24,9 +24,11 @@ This script disables this blacklist. Tested on macOS 10.15 Beta 9 (19A573a). It 
 
 - `/path/to/SidecarPatcher` refers to the location of `SidecarPatcher` like `/Users/pook/Downloads/SidecarPatcher`. If you don't know what it is, just Drag & Drop a `SidecarPatcher` to Terminal. It will automatically fill it.
 
-- You will need to enter Password, which is login password.
+- You will need to enter a Password, which is a login password.
 
 - If you already patched, this script won't work until replacing to original one.
+
+- About xcrun error and crashing many apps after rebooting: [#4](https://github.com/pookjw/SidecarPatcher/issues/4)
 
 ## About old iPad
 
