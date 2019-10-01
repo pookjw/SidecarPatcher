@@ -32,4 +32,4 @@ This script disables this blacklist. Tested on macOS 10.15 Beta 9 (19A573a). It 
 
 Sidecar is disabled on these devices: iPad4,1, iPad4,2, iPad4,3, iPad4,4, iPad4,5, iPad4,6, iPad4,7, iPad4,8, iPad4,9, iPad5,1, iPad5,2, iPad5,3, iPad5,4, iPad6,11, iPad6,12
 
-In SidecarPatcher [Version 5](https://github.com/pookjw/SidecarPatcher/commit/6c9a528a98254330bca92471cb94bbc0d6027334), it also disables this iPad blacklist (exists on macOS and SidecarPatcher will patch this. Not patching iPadOS root system.). But I don't have Sidecar-unsupported Mac and iPad so I don't know it works. Don't expect.
+In SidecarPatcher [Version 5](https://github.com/pookjw/SidecarPatcher/commit/6c9a528a98254330bca92471cb94bbc0d6027334) and later, it also disables this iPad blacklist (exists on macOS. SidecarPatcher will patch this. Not patching iPadOS root system.). But I don't have Sidecar-unsupported Mac and iPad so I don't know it works. Don't expect.
