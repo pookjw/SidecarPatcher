@@ -6,11 +6,15 @@ Sidecar is disabled on these devices: `iMac13,1, iMac13,2, iMac13,3, iMac14,1, i
 
 and iPad: `iPad4,1, iPad4,2, iPad4,3, iPad4,4, iPad4,5, iPad4,6, iPad4,7, iPad4,8, iPad4,9, iPad5,1, iPad5,2, iPad5,3, iPad5,4, iPad6,11, iPad6,12`
 
-Getting the model identifier of your Mac: `sysctl hw.model`
-
-Getting the model identifier of your iPad: [Mactracker (iOS App Store)](https://apps.apple.com/us/app/mactracker/id311421597)
+Getting the model identifier of your Mac: `sysctl hw.model`, Getting the model identifier of your iPad: [Mactracker (iOS App Store)](https://apps.apple.com/us/app/mactracker/id311421597)
 
 This script disables this blacklist in macOS. Not patching iPadOS root system. Tested on macOS 10.15 (19A583).
+
+## About developer
+
+Atfer releasing macOS Catalina, I know that many people watching this and there are so many issues. But I am preparing [Winter I-SURF at the University California of Irvine](https://www.urop.uci.edu/i-surf.html) now... I am really newbie in English so I am studying English for interview.
+
+I can't read all issues and reply them. Really sorry about this.
 
 ## How to patch
 
@@ -57,9 +61,3 @@ To check SIP is disabled: `csrutil status`
 5. Set permission as 755: `sudo chmod 755 /System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore`
 
 6. Reboot. If you want, enable System Integrity Protection again.
-
-## About developer
-
-Atfer releasing macOS Catalina, I know that many people watching this and there are so many issues. But I am preparing [Winter I-SURF at the University California of Irvine](https://www.urop.uci.edu/i-surf.html) now... I really newbie in English so I am studying English for interview.
-
-I can't read all issues and reply them. Really sorry about this.
