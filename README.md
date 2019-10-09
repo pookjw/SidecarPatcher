@@ -10,7 +10,7 @@ Getting the model identifier of your Mac: `sysctl hw.model`
 
 Getting the model identifier of your iPad: [Mactracker (iOS App Store)](https://apps.apple.com/us/app/mactracker/id311421597)
 
-This script disables this blacklist. Tested on macOS 10.15 (19A583).
+This script disables this blacklist in macOS. Not patching iPadOS root system. Tested on macOS 10.15 (19A583).
 
 ## How to patch
 
