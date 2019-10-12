@@ -56,6 +56,8 @@ To check SIP is disabled: `csrutil status`
 
 3. Copy original SidecarCore: `sudo cp /path/to/original/SidecarCore /System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore`
 
+- Be aware of `/path/to/original/SidecarCore`.
+
 4. Sign SidecarCore: `sudo codesign -f -s - /System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore`
 
 5. Set permission as 755: `sudo chmod 755 /System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore`
