@@ -54,7 +54,7 @@ To check SIP is disabled: `csrutil status`
 
 2. Run `sudo mount -uw /` command.
 
-3. Replace `/System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore`.
+3. Copy original SidecarCore: `sudo cp /path/to/original/SidecarCore /System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore`
 
 4. Sign SidecarCore: `sudo codesign -f -s - /System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore`
 
