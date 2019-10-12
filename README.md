@@ -22,7 +22,9 @@ It is really unstable. There are many issues. Read [Issues](https://github.com/p
 
 1. Backup `/System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore` file. This script doesn't provide original system file.
 
-2. Install **Command Line Tools** from [here](https://developer.apple.com/download/more/). (requires Apple Developer Account, but free account is available)
+2. Install **Command Line Tools** from [here](https://developer.apple.com/download/more/).
+
+- Requires Apple Developer Account, but free account is available.
 
 3. Disable **System Integrity Protection**. [How to turn off System Integrity Protection on your Mac](https://www.imore.com/how-turn-system-integrity-protection-macos).
 
