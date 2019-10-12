@@ -22,15 +22,17 @@ It is really unstable. There are many issues. Read [Issues](https://github.com/p
 
 1. Backup `/System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore` file. This script doesn't provide original system file.
 
-2. Disable **System Integrity Protection**. [How to turn off System Integrity Protection on your Mac](https://www.imore.com/how-turn-system-integrity-protection-macos).
+2. Install **Command Line Tools** from [here](https://developer.apple.com/download/more/). (requires Apple Developer Account, but free account is available)
+
+3. Disable **System Integrity Protection**. [How to turn off System Integrity Protection on your Mac](https://www.imore.com/how-turn-system-integrity-protection-macos).
 
 - To check SIP is disabled: `csrutil status`
 
-3. Download the latest release from [here](https://github.com/pookjw/SidecarPatcher/releases) and unzip it.
+4. Download the latest release from [here](https://github.com/pookjw/SidecarPatcher/releases) and unzip it.
 
 - If you download using Chrome, it will warn of downloading file may dangerous. It's not a virus, but this script modifies system so may be dangerous.
 
-4. Open **Terminal** application and Excute `chmod +x /path/to/SidecarPatcher` and `sudo /path/to/SidecarPatcher`. 
+5. Open **Terminal** application and Excute `chmod +x /path/to/SidecarPatcher` and `sudo /path/to/SidecarPatcher`. 
 
 - `/path/to/SidecarPatcher` refers to the location of `SidecarPatcher` like `/Users/pook/Downloads/SidecarPatcher`. If you don't know what it is, just Drag & Drop a `SidecarPatcher` to Terminal. It will automatically fill it.
 
