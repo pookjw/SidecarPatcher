@@ -12,12 +12,6 @@ You can get the model identifier of your iPad by using this app: [Mactracker (iO
 
 This script disables this blacklist in macOS. This does NOT patch the iPadOS root system. Tested on macOS 10.15 (19A583).
 
-## About the developer
-
-After releasing macOS Catalina, I know that many people looking at this and there are a lot of many issues. I am currently preparing [Winter I-SURF at the University California of Irvine](https://www.urop.uci.edu/i-surf.html) now... I am a newbie in English, I am currently studying English for an interview.
-
-I can't read all the issues and reply to them. I apologies for this.
-
 ## How to patch
 
 It is very unstable. There are many known issues. Read [Issues](https://github.com/pookjw/SidecarPatcher/issues). Please use this at your own risk.
