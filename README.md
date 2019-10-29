@@ -28,7 +28,7 @@ It is very unstable. There are many known issues. Read [Issues](https://github.c
 
 - To check SIP is disabled: `csrutil status`
 
-4. Open **Terminal** application and Clone this repository by running this command: `git clone https://github.com/pookjw/SidecarPatcher`
+4. Open **Terminal** application and clone this repository by running this command: `git clone https://github.com/pookjw/SidecarPatcher`
 
 5. Run main.swift: `sudo swift SidecarPatcher/main.swift`
 
