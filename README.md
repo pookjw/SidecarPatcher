@@ -10,7 +10,7 @@ You can type this in Terminal to get the model identifier of your Mac: `sysctl h
 
 You can get the model identifier of your iPad by using this app: [Mactracker (iOS App Store)](https://apps.apple.com/us/app/mactracker/id311421597)
 
-This script disables this blacklist in macOS. This does NOT patch the iPadOS root system. Tested on macOS 10.15 (19A583).
+This script disables this blacklist in macOS. This does NOT patch the iPadOS root system, jailbreaking is not required. Tested on macOS 10.15 (19A583).
 
 ## How to patch
 
@@ -34,7 +34,7 @@ It is very unstable. There are many known issues. Read [Issues](https://github.c
 
 - You will need to enter your macOS password.
 
-- Ignore **warning**. If you encounter error and you don't know how to fix, upload a log to [Issue](https://github.com/pookjw/SidecarPatcher/issues). (I can't reply all issues because I don't know all.)
+- Ignore **warnings**. If you encounter error and you don't know how to fix, upload a log to [Issue](https://github.com/pookjw/SidecarPatcher/issues). (I can't reply all issues because I don't know all.)
 
 - This script will not patch again if you already patched your system until you revert to the original SidecarCore.
 
