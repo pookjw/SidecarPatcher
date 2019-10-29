@@ -26,15 +26,13 @@ It is very unstable. There are many known issues. Read [Issues](https://github.c
 
 - To check SIP is disabled: `csrutil status`
 
-4. Download the latest release from [here](https://github.com/pookjw/SidecarPatcher/releases) and unzip it.
+4. Open **Terminal** application and Clone this repository by running this command: `git clone https://github.com/pookjw/SidecarPatcher`
 
-- If you download using Chrome, it will warn you by notifying that file may dangerous. It's not a virus, but this script modifies the system so it thinks that the script is dangerous.
-
-5. Open **Terminal** application and Excute `chmod +x /path/to/SidecarPatcher` and `sudo /path/to/SidecarPatcher`. 
-
-- `/path/to/SidecarPatcher` refers to the location of `SidecarPatcher` like `/Users/pook/Downloads/SidecarPatcher`. If you don't know what it is, just Drag & Drop a `SidecarPatcher` to the Terminal. It will automatically fill it.
+5. Run main.swift: `sudo swift SidecarPatcher/main.swift`
 
 - You will need to enter your macOS password.
+
+- Ignore **warning**. If you encounter error and you don't know how to fix, upload a log to [Issue](https://github.com/pookjw/SidecarPatcher/issues). (I can't reply all issues because I don't know all.)
 
 - This script will not patch again if you already patched your system until you revert to the original SidecarCore.
 
