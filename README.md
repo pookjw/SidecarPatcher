@@ -16,6 +16,8 @@ This script disables this blacklist in macOS. This does NOT patch the iPadOS roo
 
 It is very unstable. There are many known issues. Read [Issues](https://github.com/pookjw/SidecarPatcher/issues). Please use this at your own risk.
 
+**[Release Tab](https://github.com/pookjw/SidecarPatcher/releases) no longer works because Apple defined SidecarPatcher as malware. macOS Gatekeeper will block running SidecarPatcher downloaded from Release Tab, so you have to build SidecarPatcher manually. Follow below instructions.**
+
 1. Backup `/System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore` file. This script doesn't provide original system file.
 
 2. Install **Command Line Tools** from [here](https://developer.apple.com/download/more/).
