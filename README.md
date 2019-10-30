@@ -24,7 +24,7 @@ It is very unstable. There are many known issues. Read [Issues](https://github.c
 
 - Requires Apple Developer Account, you can use a free-tier developer account .
 
-3. Disable **System Integrity Protection**. [How to turn off System Integrity Protection on your Mac](https://www.imore.com/how-turn-system-integrity-protection-macos).
+3. Disable **System Integrity Protection**. [How to turn off System Integrity Protection on your Mac](https://www.imore.com/how-turn-system-integrity-protection-macos). After disabling **System Integrity Protection**, reboot into normal macOS.
 
 - To check SIP is disabled: `csrutil status`
 
