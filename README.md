@@ -20,7 +20,7 @@ It is very unstable. There are many known issues. Read [Issues](https://github.c
 
 1. Backup `/System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore` file. This script doesn't provide original system file.
 
-2. Install **Command Line Tools** from [here](https://developer.apple.com/download/more/).
+2. Install the latest version of **Command Line Tools** from [Apple Developer website](https://developer.apple.com/download/more/).
 
 - Requires Apple Developer Account, you can use a free-tier developer account .
 
