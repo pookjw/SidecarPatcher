@@ -1,5 +1,5 @@
 /*
- SidecarPatcher - Version 12
+ SidecarPatcher - Version 13
  
  Enabling Sidecar on old Mac (2015 or older)
  But I don't have Sidecar-unsupported Mac so I don't know it works.
@@ -114,7 +114,7 @@ func exportCore(core: String, path: String){
             try fileManager.removeItem(atPath: "/tmp/SidecarPatcher")
         }
         catch let error as NSError {
-            assertionFailure("\(error)")
+            assertionFailure(ANSIColors.red + String("\(error)") + ANSIColors.default)
         }
     }
     
@@ -123,7 +123,7 @@ func exportCore(core: String, path: String){
     do{
         try fileManager.createDirectory(atPath: temp_dir, withIntermediateDirectories: true, attributes: nil)
     } catch let error as NSError {
-        assertionFailure("\(error)")
+        assertionFailure(ANSIColors.red + String("\(error)") + ANSIColors.default)
     }
     
     // Export code
@@ -131,7 +131,7 @@ func exportCore(core: String, path: String){
     do {
         try core.write(to: output_path, atomically: true, encoding: String.Encoding.utf8)
     } catch let error as NSError {
-        assertionFailure("\(error)")
+        assertionFailure(ANSIColors.red + String("\(error)") + ANSIColors.default)
     }
     shell("xxd -r -p /tmp/SidecarPatcher/output.txt /tmp/SidecarPatcher/SidecarCore")
     
@@ -144,7 +144,7 @@ func exportCore(core: String, path: String){
             try fileManager.removeItem(atPath: "\(path)/SidecarCore")
         }
         catch let error as NSError {
-            assertionFailure("\(error)")
+            assertionFailure(ANSIColors.red + String("\(error)") + ANSIColors.default)
         }
     }
     
@@ -154,7 +154,7 @@ func exportCore(core: String, path: String){
         try fileManager.copyItem(atPath: "/tmp/SidecarPatcher/SidecarCore", toPath: "\(path)/SidecarCore")
     }
     catch let error as NSError {
-        assertionFailure("\(error)")
+        assertionFailure(ANSIColors.red + String("\(error)") + ANSIColors.default)
     }
     
     // codesign
@@ -173,7 +173,7 @@ var patchDictionary: [String: PatchCode] = [:]
 patchDictionary["Mac"] = PatchCode(original: "694d616331332c3100694d616331332c3200694d616331332c3300694d616331342c3100694d616331342c3200694d616331342c3300694d616331342c3400694d616331352c3100694d616331362c3100694d616331362c32004d6163426f6f6b382c31004d6163426f6f6b416972352c31004d6163426f6f6b416972352c32004d6163426f6f6b416972362c31004d6163426f6f6b416972362c32004d6163426f6f6b416972372c31004d6163426f6f6b416972372c32004d6163426f6f6b50726f392c31004d6163426f6f6b50726f392c32004d6163426f6f6b50726f31302c31004d6163426f6f6b50726f31302c32004d6163426f6f6b50726f31312c31004d6163426f6f6b50726f31312c32004d6163426f6f6b50726f31312c33004d6163426f6f6b50726f31312c34004d6163426f6f6b50726f31312c35004d6163426f6f6b50726f31322c31004d61636d696e69362c31004d61636d696e69362c32004d61636d696e69372c31004d616350726f352c31004d616350726f362c31", patched: "694d616330302c3000694d616330302c3000694d616330302c3000694d616330302c3000694d616330302c3000694d616330302c3000694d616330302c3000694d616330302c3000694d616330302c3000694d616330302c30004d6163426f6f6b302c30004d6163426f6f6b416972302c30004d6163426f6f6b416972302c30004d6163426f6f6b416972302c30004d6163426f6f6b416972302c30004d6163426f6f6b416972302c30004d6163426f6f6b416972302c30004d6163426f6f6b50726f302c30004d6163426f6f6b50726f302c30004d6163426f6f6b50726f30302c30004d6163426f6f6b50726f30302c30004d6163426f6f6b50726f30302c30004d6163426f6f6b50726f30302c30004d6163426f6f6b50726f30302c30004d6163426f6f6b50726f30302c30004d6163426f6f6b50726f30302c30004d6163426f6f6b50726f30302c30004d61636d696e69302c30004d61636d696e69302c30004d61636d696e69302c30004d616350726f302c30004d616350726f302c30")
 patchDictionary["iPad"] = PatchCode(original: "69506164342c310069506164342c320069506164342c330069506164342c340069506164342c350069506164342c360069506164342c370069506164342c380069506164342c390069506164352c310069506164352c320069506164352c330069506164352c340069506164362c31310069506164362c3132", patched: "69506164302c300069506164302c300069506164302c300069506164302c300069506164302c300069506164302c300069506164302c300069506164302c300069506164302c300069506164302c300069506164302c300069506164302c300069506164302c300069506164302c30300069506164302c3030")
 
-print("SidecarPatcher (Version 11)")
+print("SidecarPatcher (Version 13)")
 print("GitHub : https://github.com/pookjw/SidecarPatcher") // don't erase this
 let originalCore = importCore(path: SidecarCorePath) // get code
 let patchToCode = checkSystem(core: originalCore, code: patchDictionary) // check availability and get patch code
