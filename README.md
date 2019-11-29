@@ -10,9 +10,11 @@ You can type this in Terminal to get the model identifier of your Mac: `sysctl h
 
 You can get the model identifier of your iPad by using this app: [Mactracker (iOS App Store)](https://apps.apple.com/us/app/mactracker/id311421597)
 
-This script disables this blacklist in macOS. This does NOT patch the iPadOS root system, jailbreaking is not required. Tested on macOS 10.15~10.15.2 beta.
+This script disables this blacklist in macOS. This does NOT patch the iPadOS root system, jailbreaking is not required.
 
 This is a command line script. If you want GUI application, try [free-sidecar](https://github.com/ben-z/free-sidecar) by ben-z.
+
+Tested on macOS 10.15~10.15.2 beta.
 
 ## How to patch
 
