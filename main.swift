@@ -1,13 +1,13 @@
 /*
-    SidecarPatcher - Version 11
-
-    Enabling Sidecar on old Mac (2015 or older)
-    But I don't have Sidecar-unsupported Mac so I don't know it works.
-
-    THIS SCRIPT DOESN'T MAKE SidecarCore BACKUP SO YOU HAVE TO DO THIS MANUALLY. PLEASE BACKUP /System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore. PLEASE. PLEASE. PLEASE.
-    And after patching SidecarCore, this script won't work until replacing to original one.
-    This script requires disabling SIP, and running as root.
-*/
+ SidecarPatcher - Version 12
+ 
+ Enabling Sidecar on old Mac (2015 or older)
+ But I don't have Sidecar-unsupported Mac so I don't know it works.
+ 
+ THIS SCRIPT DOESN'T MAKE SidecarCore BACKUP SO YOU HAVE TO DO THIS MANUALLY. PLEASE BACKUP /System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore. PLEASE. PLEASE. PLEASE.
+ And after patching SidecarCore, this script won't work until replacing to original one.
+ This script requires disabling SIP, and running as root.
+ */
 import Foundation
 
 func shell(_ command: String) -> String{
@@ -35,6 +35,29 @@ func importCore(path: String) -> String{
     return shell("xxd -p \"\(path)/SidecarCore\" | tr -d '\n'")
 }
 
+// idea from https://github.com/dfreniche/SwiftANSIColors
+enum ANSIColors: String {
+    case black = "\u{001B}[0;30m"
+    case red = "\u{001B}[0;31m"
+    case green = "\u{001B}[0;32m"
+    case yellow = "\u{001B}[0;33m"
+    case blue = "\u{001B}[0;34m"
+    case magenta = "\u{001B}[0;35m"
+    case cyan = "\u{001B}[0;36m"
+    case white = "\u{001B}[0;37m"
+    case `default` = "\u{001B}[0;0m"
+}
+
+func + (left: ANSIColors, right: String) -> String {
+    return left.rawValue + right
+}
+
+func + (left: String, right: ANSIColors) -> String {
+    return left + right.rawValue
+}
+
+// end
+
 func checkSystem(core: String, code: [String: PatchCode]) -> [PatchCode]{
     var result: [PatchCode] = []
     
@@ -42,7 +65,7 @@ func checkSystem(core: String, code: [String: PatchCode]) -> [PatchCode]{
     if #available(macOS 10.15, *){
         ()
     }else{
-        assertionFailure("You're not using macOS 10.15 or later!")
+        assertionFailure(ANSIColors.red + "You're not using macOS 10.15 or later!" + ANSIColors.default)
     }
     
     // Check the system is patched (macModel and iPadModel)
@@ -52,24 +75,24 @@ func checkSystem(core: String, code: [String: PatchCode]) -> [PatchCode]{
         }
     }
     if result.isEmpty{
-        assertionFailure("Already patched!")
+        assertionFailure(ANSIColors.red + "Already patched!" + ANSIColors.default)
     }
     
     // Check SidecarCore is damaged
     for value in result{
         if !core.contains(value.original){
-            assertionFailure("Not supported SidecarCore! or seems like damaged")
+            assertionFailure(ANSIColors.red + "Not supported SidecarCore! or seems like damaged" + ANSIColors.default)
         }
     }
     
     // Check SIP status
     if !(shell("csrutil status") == "System Integrity Protection status: disabled.\n") && !(shell("csrutil status").contains("Filesystem Protections: disabled")){
-        assertionFailure("Filesystem Protections of System Integrity Protection is enabled")
+        assertionFailure(ANSIColors.red + "Filesystem Protections of System Integrity Protection is enabled" + ANSIColors.default)
     }
     
     // Check privilege
     if !(shell("id -u") == "0\n"){
-        assertionFailure("Must be run as root")
+        assertionFailure(ANSIColors.red + "Must be run as root" + ANSIColors.default)
     }
     
     // return patch code
@@ -94,7 +117,7 @@ func exportCore(core: String, path: String){
             assertionFailure("\(error)")
         }
     }
-
+    
     // Create temp dir
     let temp_dir = URL(fileURLWithPath: "/tmp/").appendingPathComponent("SidecarPatcher").path
     do{
@@ -102,7 +125,7 @@ func exportCore(core: String, path: String){
     } catch let error as NSError {
         assertionFailure("\(error)")
     }
-
+    
     // Export code
     let output_path = URL(fileURLWithPath: "/tmp/SidecarPatcher").appendingPathComponent("output.txt")
     do {
@@ -111,7 +134,7 @@ func exportCore(core: String, path: String){
         assertionFailure("\(error)")
     }
     shell("xxd -r -p /tmp/SidecarPatcher/output.txt /tmp/SidecarPatcher/SidecarCore")
-
+    
     // Mount system (thanks to: https://github.com/pookjw/SidecarPatcher/issues/1)
     shell("sudo mount -uw /")
     
@@ -125,7 +148,7 @@ func exportCore(core: String, path: String){
         }
     }
     
-
+    
     // Copy system file
     do {
         try fileManager.copyItem(atPath: "/tmp/SidecarPatcher/SidecarCore", toPath: "\(path)/SidecarCore")
@@ -133,7 +156,7 @@ func exportCore(core: String, path: String){
     catch let error as NSError {
         assertionFailure("\(error)")
     }
-
+    
     // codesign
     shell("sudo codesign -f -s - \"\(path)/SidecarCore\"")
     shell("sudo chmod 755 \"\(path)/SidecarCore\"")
