@@ -44,11 +44,11 @@ It is very unstable. There are many known issues. Read [Issues](https://github.c
 
 ## How to revert
 
-- Simplest Method
+### Simplest Method
 
 Reinstall your macOS using Catalina Installer. Install it without erasing your disk it won't erase your data and it will just reinstall the system.
 
-- Using your backup
+### Using your backup
 
 1. Disable **System Integrity Protection**. [How to turn off System Integrity Protection on your Mac](https://www.imore.com/how-turn-system-integrity-protection-macos).
 
