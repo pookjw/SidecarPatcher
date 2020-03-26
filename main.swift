@@ -1,41 +1,50 @@
 /*
- SidecarPatcher - Version 13
- 
- Enabling Sidecar on old Mac (2015 or older)
- But I don't have Sidecar-unsupported Mac so I don't know it works.
- 
- THIS SCRIPT DOESN'T MAKE SidecarCore BACKUP SO YOU HAVE TO DO THIS MANUALLY. PLEASE BACKUP /System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore. PLEASE. PLEASE. PLEASE.
- And after patching SidecarCore, this script won't work until replacing to original one.
- This script requires disabling SIP, and running as root.
- */
+SidecarPatcher - Version 14
+
+Enabling Sidecar on old Mac (2015 or older)
+But I don't have Sidecar-unsupported Mac so I don't know it works.
+
+THIS SCRIPT DOESN'T MAKE SidecarCore BACKUP SO YOU HAVE TO DO THIS MANUALLY. PLEASE BACKUP /System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore. PLEASE. PLEASE. PLEASE.
+And after patching SidecarCore, this script won't work until replacing to original one.
+This script requires disabling SIP, and running as root.
+*/
+
 import Foundation
 
-func shell(_ command: String) -> String{
-    let task = Process()
-    task.launchPath = "/bin/bash"
-    task.arguments = ["-c", command]
-    
+// Run Shell script on Swift from https://gitlab.com/cyril_j/mutils/blob/master/Swift/Exec_shell.swift
+@discardableResult
+func shell(_ arguments: String, show_log: Bool = false) -> String {
+    let task = Process();
+    task.launchPath = "/bin/zsh"
+    var environment = ProcessInfo.processInfo.environment
+    environment["PATH"] = "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+    task.environment = environment
+    task.arguments = ["-c", arguments]
+        
     let pipe = Pipe()
     task.standardOutput = pipe
     task.launch()
-    
     let data = pipe.fileHandleForReading.readDataToEndOfFile()
-    let output: String = NSString(data: data, encoding: String.Encoding.utf8.rawValue)! as String
+    let output: String = String(data: data, encoding: String.Encoding.utf8)!
+    task.waitUntilExit()
+    pipe.fileHandleForReading.closeFile()
+    
+    if show_log && output != "" {
+        print(output)
+    }
     return output
 }
 
-// From https://gist.github.com/brennanMKE/a0a2ee6aa5a2e2e66297c580c4df0d66
-fileprivate func directoryExistsAtPath(_ path: String) -> Bool {
-    var isDirectory = ObjCBool(true)
-    let exists = FileManager.default.fileExists(atPath: path, isDirectory: &isDirectory)
-    return exists && isDirectory.boolValue
+// Check directory exists from https://gist.github.com/brennanMKE/a0a2ee6aa5a2e2e66297c580c4df0d66
+extension FileManager {
+    static func directoryExistsAtPath(_ path: String) -> Bool {
+        var isDirectory = ObjCBool(true)
+        let exists = FileManager.default.fileExists(atPath: path, isDirectory: &isDirectory)
+        return exists && isDirectory.boolValue
+    }
 }
 
-func importCore(path: String) -> String{
-    return shell("xxd -p \"\(path)/SidecarCore\" | tr -d '\n'")
-}
-
-// idea from https://github.com/dfreniche/SwiftANSIColors
+// Color Scheme from https://github.com/pookjw/SwiftANSIColors
 enum ANSIColors: String {
     case black = "\u{001B}[0;30m"
     case red = "\u{001B}[0;31m"
@@ -47,136 +56,233 @@ enum ANSIColors: String {
     case white = "\u{001B}[0;37m"
     case `default` = "\u{001B}[0;0m"
 }
-
 func + (left: ANSIColors, right: String) -> String {
     return left.rawValue + right
 }
-
 func + (left: String, right: ANSIColors) -> String {
     return left + right.rawValue
 }
 
-// end
-
-func checkSystem(core: String, code: [String: PatchCode]) -> [PatchCode]{
-    var result: [PatchCode] = []
-    
+// Check system that patch is eligible
+func checkSystem() {
     // Check OS
-    if #available(macOS 10.15, *){
+    if #available(macOS 10.15, *) {
         ()
-    }else{
-        assertionFailure(ANSIColors.red + "You're not using macOS 10.15 or later!" + ANSIColors.default)
-    }
-    
-    // Check the system is patched (macModel and iPadModel)
-    for (_, value) in code{
-        if !core.contains(value.patched){
-            result.append(value)
-        }
-    }
-    if result.isEmpty{
-        assertionFailure(ANSIColors.red + "Already patched!" + ANSIColors.default)
-    }
-    
-    // Check SidecarCore is damaged
-    for value in result{
-        if !core.contains(value.original){
-            assertionFailure(ANSIColors.red + "Not supported SidecarCore! or seems like damaged" + ANSIColors.default)
-        }
+    } else {
+        fatalError(ANSIColors.red + "You're not using macOS 10.15 or later!" + ANSIColors.default)
     }
     
     // Check SIP status
-    if !(shell("csrutil status") == "System Integrity Protection status: disabled.\n") && !(shell("csrutil status").contains("Filesystem Protections: disabled")){
-        assertionFailure(ANSIColors.red + "Filesystem Protections of System Integrity Protection is enabled" + ANSIColors.default)
+    if !(shell("csrutil status") == "System Integrity Protection status: disabled.\n") && !(shell("csrutil status").contains("Filesystem Protections: disabled")) {
+        fatalError(ANSIColors.red + "Filesystem Protections of System Integrity Protection is enabled" + ANSIColors.default)
     }
     
     // Check privilege
-    if !(shell("id -u") == "0\n"){
-        assertionFailure(ANSIColors.red + "Must be run as root" + ANSIColors.default)
+    if !(shell("id -u") == "0\n") {
+        fatalError(ANSIColors.red + "Must be run as root" + ANSIColors.default)
     }
-    
-    // return patch code
-    return result
 }
 
-func patch(core: String, code: [PatchCode]) -> String{
-    var core = core
-    for value in code{
-        core.replaceSubrange(core.range(of: value.original)!, with: value.patched)
+// Sign SidecarCore from https://github.com/ben-z/free-sidecar/issues/59#issuecomment-603953953
+func signSidecarCore(sidecarCore: URL) {
+    if #available(macOS 10.15.4, *){
+        shell("sudo nvram boot-args=\"amfi_get_out_of_my_way=0x1\"", show_log: true)
     }
-    return core
+    shell("sudo codesign -f -s - \"\(sidecarCore.path)\"", show_log: true)
+    shell("sudo chmod 755 \"\(sidecarCore.path)\"", show_log: true)
 }
 
-func exportCore(core: String, path: String){
-    // Remove existing tmp dir
-    if directoryExistsAtPath("/tmp/SidecarPatcher"){
-        do {
-            try fileManager.removeItem(atPath: "/tmp/SidecarPatcher")
+// Patch methods from ben-z/free-sidecar
+// @START //
+// https://qiita.com/fromage-blanc/items/15731a1d3e6be1c5f56f
+extension UnicodeScalar {
+    var hexNibble:UInt8 {
+        let value = self.value
+        if 48 <= value && value <= 57 {
+            return UInt8(value - 48)
         }
-        catch let error as NSError {
-            assertionFailure(ANSIColors.red + String("\(error)") + ANSIColors.default)
+        else if 65 <= value && value <= 70 {
+            return UInt8(value - 55)
         }
+        else if 97 <= value && value <= 102 {
+            return UInt8(value - 87)
+        }
+        fatalError("\(self) not a legal hex nibble")
     }
-    
-    // Create temp dir
-    let temp_dir = URL(fileURLWithPath: "/tmp/").appendingPathComponent("SidecarPatcher").path
-    do{
-        try fileManager.createDirectory(atPath: temp_dir, withIntermediateDirectories: true, attributes: nil)
-    } catch let error as NSError {
-        assertionFailure(ANSIColors.red + String("\(error)") + ANSIColors.default)
+}
+extension Data {
+    init(hex:String) {
+        let scalars = hex.unicodeScalars
+        var bytes = Array<UInt8>(repeating: 0, count: (scalars.count + 1) >> 1)
+        for (index, scalar) in scalars.enumerated() {
+            var nibble = scalar.hexNibble
+            if index & 1 == 0 {
+                nibble <<= 4
+            }
+            bytes[index >> 1] |= nibble
+        }
+        self = Data(bytes)
     }
-    
-    // Export code
-    let output_path = URL(fileURLWithPath: "/tmp/SidecarPatcher").appendingPathComponent("output.txt")
-    do {
-        try core.write(to: output_path, atomically: true, encoding: String.Encoding.utf8)
-    } catch let error as NSError {
-        assertionFailure(ANSIColors.red + String("\(error)") + ANSIColors.default)
+}
+
+// https://stackoverflow.com/a/40089462
+extension Data {
+    struct HexEncodingOptions: OptionSet {
+        let rawValue: Int
+        static let upperCase = HexEncodingOptions(rawValue: 1 << 0)
     }
-    shell("xxd -r -p /tmp/SidecarPatcher/output.txt /tmp/SidecarPatcher/SidecarCore")
-    
-    // Mount system (thanks to: https://github.com/pookjw/SidecarPatcher/issues/1)
+
+    func hexEncodedString(options: HexEncodingOptions = []) -> String {
+        let format = options.contains(.upperCase) ? "%02hhX" : "%02hhx"
+        return map { String(format: format, $0) }.joined()
+    }
+}
+
+struct StringMatchResult {
+    let matchedStr: String
+    let range: NSRange
+}
+
+extension String
+{
+    func match(pattern: String) -> [[StringMatchResult]]
+    {
+        if let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive)
+        {
+            let string = self as NSString
+
+            return regex.matches(in: self, options: [], range: NSRange(location: 0, length: string.length)).map { match in
+                let res: Array<String> = Array(repeating: "", count: match.numberOfRanges)
+                return res.enumerated().map { (idx, _) in
+                    return StringMatchResult(matchedStr: string.substring(with: match.range(at: idx)), range: match.range(at: idx))
+                }
+            }
+        }
+
+        return []
+    }
+}
+
+let devices = ["iMac", "MacBookAir", "MacBookPro", "Macmini", "MacPro", "MacBook", "iPad"]
+
+let hexDict = [
+    "iMac": Data("iMac".utf8).hexEncodedString(options: [.upperCase]),
+    "MacBook": Data("MacBook".utf8).hexEncodedString(options: [.upperCase]),
+    "MacBookAir": Data("MacBookAir".utf8).hexEncodedString(options: [.upperCase]),
+    "MacBookPro": Data("MacBookPro".utf8).hexEncodedString(options: [.upperCase]),
+    "Macmini": Data("Macmini".utf8).hexEncodedString(options: [.upperCase]),
+    "MacPro": Data("MacPro".utf8).hexEncodedString(options: [.upperCase]),
+    "iPad": Data("iPad".utf8).hexEncodedString(options: [.upperCase]),
+    ",": Data(",".utf8).hexEncodedString(options: [.upperCase]),
+    " ": "00",
+]
+
+func hexToString(hex: String) -> String? {
+    return String(data: Data(hex: hex), encoding: .ascii)
+}
+
+struct Model {
+    let hex: String
+    let str: String
+    let type: String
+    let model: Int
+    let modelHex: String
+    let modelHexRange: NSRange
+    let version: Int
+    let enabled: Bool
+}
+
+func dostuff2(sidecarCore: URL) -> [Model] {
+    if let contents =  FileManager.default.contents(atPath: sidecarCore.path) {
+        let hexStr = contents.hexEncodedString(options: [.upperCase])
+        
+        let devicesStr = devices.map{ hexDict[$0]! }.joined(separator: "|")
+        let matched = hexStr.match(pattern: "(\(devicesStr))((?:(?!\(hexDict[" "]!))[0-9A-Z])+)\(hexDict[","]!)((?:(?!\(hexDict[" "]!))[0-9A-Z])+)\(hexDict[" "]!)")
+        
+        let models = matched.map({ res -> Model in
+            let hex = res[0].matchedStr
+            let type = hexToString(hex: res[1].matchedStr)!
+            let modelHex = res[2].matchedStr
+            let modelHexRange = res[2].range
+            let model = Int(String(data: Data([UInt8](Data(hex: modelHex)).map { $0 & ~0xC0 }), encoding: .ascii)!)!
+            let version = Int(hexToString(hex: res[3].matchedStr)!)!
+            let enabled = [UInt8](Data(hex: modelHex))[0] & 0xC0 != 0
+            let str = "\(type)\(model),\(version)"
+
+            return Model(hex: hex, str: str, type: type, model: model, modelHex: modelHex, modelHexRange: modelHexRange, version: version, enabled: enabled)
+        })
+        
+        print("matched: \(models.count)")
+        
+        return models
+    }
+    return []
+}
+
+func patch(model: [Model], sidecarCore: URL) {
     shell("sudo mount -uw /")
-    
-    // Remove existing original system file
-    if fileManager.fileExists(atPath: "\(path)/SidecarCore") {
-        do {
-            try fileManager.removeItem(atPath: "\(path)/SidecarCore")
-        }
-        catch let error as NSError {
-            assertionFailure(ANSIColors.red + String("\(error)") + ANSIColors.default)
-        }
+    guard var replacementData = FileManager.default.contents(atPath: sidecarCore.path) else {
+        fatalError(ANSIColors.red + "Failed to load SidecarCore." + ANSIColors.default)
     }
     
+    for tmp in model {
+        if tmp.enabled {
+            continue
+        }
+        let hexStr = replacementData.hexEncodedString(options: [.upperCase])
+        
+        // Mask the model number
+        let replacementModelHex = Data([UInt8](Data(hex: tmp.modelHex)).map { $0 | 0xC0 }).hexEncodedString(options: [.upperCase])
+        
+        // Generate a new string
+        let replacementHexStr = (hexStr as NSString).replacingOccurrences(of: tmp.modelHex, with: replacementModelHex, range: tmp.modelHexRange)
+        replacementData = Data(hex: replacementHexStr)
+    }
     
-    // Copy system file
+    // Write to file
     do {
-        try fileManager.copyItem(atPath: "/tmp/SidecarPatcher/SidecarCore", toPath: "\(path)/SidecarCore")
+        try replacementData.write(to: sidecarCore)
+    } catch {
+        fatalError("\(error)")
     }
-    catch let error as NSError {
-        assertionFailure(ANSIColors.red + String("\(error)") + ANSIColors.default)
+}
+
+func unpatch(model: [Model], sidecarCore: URL) {
+    shell("sudo mount -uw /")
+    guard var replacementData = FileManager.default.contents(atPath: sidecarCore.path) else {
+        fatalError(ANSIColors.red + "Failed to load SidecarCore." + ANSIColors.default)
     }
     
-    // codesign
-    shell("sudo codesign -f -s - \"\(path)/SidecarCore\"")
-    shell("sudo chmod 755 \"\(path)/SidecarCore\"")
+    for tmp in model {
+        if !tmp.enabled {
+            continue
+        }
+        let hexStr = replacementData.hexEncodedString(options: [.upperCase])
+        
+        // Mask the model number
+        let replacementModelHex = Data([UInt8](Data(hex: tmp.modelHex)).map { $0 & ~0xC0 }).hexEncodedString(options: [.upperCase])
+        
+        // Generate a new string
+        let replacementHexStr = (hexStr as NSString).replacingOccurrences(of: tmp.modelHex, with: replacementModelHex, range: tmp.modelHexRange)
+        replacementData = Data(hex: replacementHexStr)
+    }
+    
+    // Write to file
+    do {
+        print("HIhHI")
+        try replacementData.write(to: sidecarCore)
+    } catch {
+        fatalError("\(error)")
+    }
 }
+// @END //
 
-struct PatchCode{
-    var original: String
-    var patched: String
-}
-
-let fileManager = FileManager()
-let SidecarCorePath = "/System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A"
-var patchDictionary: [String: PatchCode] = [:]
-patchDictionary["Mac"] = PatchCode(original: "694d616331332c3100694d616331332c3200694d616331332c3300694d616331342c3100694d616331342c3200694d616331342c3300694d616331342c3400694d616331352c3100694d616331362c3100694d616331362c32004d6163426f6f6b382c31004d6163426f6f6b416972352c31004d6163426f6f6b416972352c32004d6163426f6f6b416972362c31004d6163426f6f6b416972362c32004d6163426f6f6b416972372c31004d6163426f6f6b416972372c32004d6163426f6f6b50726f392c31004d6163426f6f6b50726f392c32004d6163426f6f6b50726f31302c31004d6163426f6f6b50726f31302c32004d6163426f6f6b50726f31312c31004d6163426f6f6b50726f31312c32004d6163426f6f6b50726f31312c33004d6163426f6f6b50726f31312c34004d6163426f6f6b50726f31312c35004d6163426f6f6b50726f31322c31004d61636d696e69362c31004d61636d696e69362c32004d61636d696e69372c31004d616350726f352c31004d616350726f362c31", patched: "694d616330302c3000694d616330302c3000694d616330302c3000694d616330302c3000694d616330302c3000694d616330302c3000694d616330302c3000694d616330302c3000694d616330302c3000694d616330302c30004d6163426f6f6b302c30004d6163426f6f6b416972302c30004d6163426f6f6b416972302c30004d6163426f6f6b416972302c30004d6163426f6f6b416972302c30004d6163426f6f6b416972302c30004d6163426f6f6b416972302c30004d6163426f6f6b50726f302c30004d6163426f6f6b50726f302c30004d6163426f6f6b50726f30302c30004d6163426f6f6b50726f30302c30004d6163426f6f6b50726f30302c30004d6163426f6f6b50726f30302c30004d6163426f6f6b50726f30302c30004d6163426f6f6b50726f30302c30004d6163426f6f6b50726f30302c30004d6163426f6f6b50726f30302c30004d61636d696e69302c30004d61636d696e69302c30004d61636d696e69302c30004d616350726f302c30004d616350726f302c30")
-patchDictionary["iPad"] = PatchCode(original: "69506164342c310069506164342c320069506164342c330069506164342c340069506164342c350069506164342c360069506164342c370069506164342c380069506164342c390069506164352c310069506164352c320069506164352c330069506164352c340069506164362c31310069506164362c3132", patched: "69506164302c300069506164302c300069506164302c300069506164302c300069506164302c300069506164302c300069506164302c300069506164302c300069506164302c300069506164302c300069506164302c300069506164302c300069506164302c300069506164302c30300069506164302c3030")
-
-print("SidecarPatcher (Version 13)")
+// main
+print("SidecarPatcher (Version 14)")
 print("GitHub : https://github.com/pookjw/SidecarPatcher") // don't erase this
-let originalCore = importCore(path: SidecarCorePath) // get code
-let patchToCode = checkSystem(core: originalCore, code: patchDictionary) // check availability and get patch code
-let patchedCore = patch(core: originalCore, code: patchToCode) // patch code
-exportCore(core: patchedCore, path: SidecarCorePath) // copy patched code to system
-print("Reboot your macOS.")
+checkSystem()
+let url = URL(fileURLWithPath: "/System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore")
+let models: [Model] = dostuff2(sidecarCore: url)
+patch(model: models, sidecarCore: url)
+//unpatch(model: models, sidecarCore: url)
+signSidecarCore(sidecarCore: url)

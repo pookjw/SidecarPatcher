@@ -14,7 +14,7 @@ This script disables this blacklist in macOS. This does NOT patch the iPadOS roo
 
 This is a command line script. If you want GUI application, try [free-sidecar](https://github.com/ben-z/free-sidecar) by ben-z.
 
-Tested on macOS 10.15~10.15.2 beta.
+Tested on macOS 10.15~10.15.4.
 
 ## How to patch
 
