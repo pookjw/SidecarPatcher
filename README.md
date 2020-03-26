@@ -40,8 +40,6 @@ It is very unstable. There are many known issues. Read [Issues](https://github.c
 
 - Ignore **warnings**. If you encounter error and you don't know how to fix, upload a log to [Issue](https://github.com/pookjw/SidecarPatcher/issues). (I can't reply all issues because I don't know all.)
 
-- This script will not patch again if you already patched your system until you revert to the original SidecarCore.
-
 - About xcrun error and crashing many apps after rebooting: [#4](https://github.com/pookjw/SidecarPatcher/issues/4)
 
 ## How to revert
