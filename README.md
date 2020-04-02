@@ -46,7 +46,7 @@ It is very unstable. There are many known issues. Read [Issues](https://github.c
 
 ### Simplest Method (1)
 
-Reinstall your macOS using **macOS Combo Update**. You can download **macOS Combo Update** at [here](https://support.apple.com/downloads/macos). For example, if you're using macOS Catalina 10.15.4, download [macOS Catalina 10.15.4 Combo Update](https://support.apple.com/kb/DL2037?viewlocale=en_US&locale=en_US). It won't erase your data and it will just reinstall the system.
+Reinstall your macOS using **macOS Combo Update**. You can download **macOS Combo Update** from [here](https://support.apple.com/downloads/macos). For example, if you're using macOS Catalina 10.15.4, download [macOS Catalina 10.15.4 Combo Update](https://support.apple.com/kb/DL2037?viewlocale=en_US&locale=en_US). It won't erase your data and it will just reinstall the system.
 
 ### Simplest Method (2)
 
