@@ -20,7 +20,7 @@ Tested on macOS 10.15~10.15.4.
 
 It is very unstable. There are many known issues. Read [Issues](https://github.com/pookjw/SidecarPatcher/issues). Please use this at your own risk.
 
-1. Backup `/System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore` file. This script doesn't provide original system file.
+1. Backup `/System/Library/PrivateFrameworks/SidecarCore.framework` folder. This script doesn't provide original system file.
 
 2. Install the latest version of **Command Line Tools** from [Apple Developer website](https://developer.apple.com/download/more/).
 
@@ -44,9 +44,13 @@ It is very unstable. There are many known issues. Read [Issues](https://github.c
 
 ## How to revert
 
-### Simplest Method
+### Simplest Method (1)
 
-Reinstall your macOS using Catalina Installer. Install it without erasing your disk it won't erase your data and it will just reinstall the system.
+Reinstall your macOS using **macOS Combo Update**. You can download **macOS Combo Update** at [here](https://support.apple.com/downloads/macos). For example, if you're using macOS Catalina 10.15.4, download [macOS Catalina 10.15.4 Combo Update](https://support.apple.com/kb/DL2037?viewlocale=en_US&locale=en_US). It won't erase your data and it will just reinstall the system.
+
+### Simplest Method (2)
+
+Reinstall your macOS using **Install macOS Catalina.app**. Install it without erasing your disk it won't erase your data and it will just reinstall the system.
 
 ### Using your backup
 
@@ -56,12 +60,8 @@ To check SIP is disabled: `csrutil status`
 
 2. Run `sudo mount -uw /` command.
 
-3. Copy the original SidecarCore: `sudo cp /path/to/original/SidecarCore /System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore`
+3. Copy the original SidecarCore folder: `sudo cp /path/to/original /System/Library/PrivateFrameworks/SidecarCore.framework`
 
-- Make sure you put the right path for SidecarCore `/path/to/original/SidecarCore`.
+- Make sure you put the right path for SidecarCore `/path/to/original`.
 
-4. Sign SidecarCore: `sudo codesign -f -s - /System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore`
-
-5. Set permission as 755: `sudo chmod 755 /System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore`
-
-6. Reboot. If you want to enable System Integrity Protection again, you can do so now.
+4. Reboot. ~~If you want to enable System Integrity Protection again, you can do so now.~~ (Testing #54)
