@@ -32,9 +32,7 @@ It is very unstable. There are many known issues. Read [Issues](https://github.c
 
 4. Open **Terminal** application and clone this repository by running this command: `git clone https://github.com/pookjw/SidecarPatcher`
 
-5. Give excute permission: `chmod +x SidecarPatcher/main.swift`
-
-6. Run main.swift: `sudo swift SidecarPatcher/main.swift`
+5. Run main.swift: `sudo swift SidecarPatcher/main.swift`
 
 - You will need to enter your macOS password.
 
@@ -64,4 +62,6 @@ To check SIP is disabled: `csrutil status`
 
 - Make sure you put the right path for SidecarCore `/path/to/original`.
 
-4. Reboot. ~~If you want to enable System Integrity Protection again, you can do so now.~~ (Testing #54)
+4. Set permission as 755: `sudo chmod -R 755 /System/Library/PrivateFrameworks/SidecarCore.framework`
+
+5. Reboot. ~~If you want to enable System Integrity Protection again, you can do so now.~~ (Testing #54)
