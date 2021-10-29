@@ -1,10 +1,18 @@
 # SidecarPatcher
 
+[![MacOS_Catalina](https://img.shields.io/badge/macOS-10.15.*%20Catalina-brightgreen)](https://en.wikipedia.org/wiki/MacOS_Catalina)
+[![IPadOS_13](https://img.shields.io/badge/iPadOS->=13-brightgreen)](https://en.wikipedia.org/wiki/IPadOS_13)
+
+
 Enables Sidecar on old Mac and iPad for macOS 10.15
+
 
 Sidecar is disabled on these devices by Apple: `iMac13,1, iMac13,2, iMac13,3, iMac14,1, iMac14,2, iMac14,3, iMac14,4, iMac15,1, iMac16,1, iMac16,2, MacBook8,1, MacBookAir5,1, MacBookAir5,2, MacBookAir6,1, MacBookAir6,2, MacBookAir7,1, MacBookAir7,2, MacBookPro9,1, MacBookPro9,2, MacBookPro10,1, MacBookPro10,2, MacBookPro11,1, MacBookPro11,2, MacBookPro11,3, MacBookPro11,4, MacBookPro11,5, MacBookPro12,1, Macmini6,1, Macmini6,2, Macmini7,1, MacPro5,1, MacPro6,1`
 
-and iPad: `iPad4,1, iPad4,2, iPad4,3, iPad4,4, iPad4,5, iPad4,6, iPad4,7, iPad4,8, iPad4,9, iPad5,1, iPad5,2, iPad5,3, iPad5,4, iPad6,11, iPad6,12`
+and iPad: `iPad4,6, iPad4,8, iPad4,9, iPad5,1, iPad5,2, iPad5,3, iPad5,4, iPad6,11, iPad6,12`
+
+**Full list of supported iPads (running iPadOS):** iPad Air 2, iPad Air (3rd generation), iPad (5th generation), iPad (6th generation), iPad (7th generation), iPad Mini 4, iPad Mini (5th generation), iPad Pro 9.7-inch, iPad Pro 10.5-inch, iPad Pro 11-inch, iPad Pro 12.9-inch (1st generation), iPad Pro 12.9-inch (2nd generation), iPad Pro 12.9-inch (3rd generation)
+
 
 You can type this in Terminal to get the model identifier of your Mac: `sysctl hw.model`.
 
